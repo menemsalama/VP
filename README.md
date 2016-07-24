@@ -1,5 +1,5 @@
 # VP (beta)
-### VP Is a desktop app built on electron and node.js
+### VP Is a desktop video player app built on electron and node.js
 
 
 ## development
