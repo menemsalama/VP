@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="video player">
+  <title>VP</title>
+
+  <link rel="stylesheet" href="node_modules/semantic-ui-css/semantic.min.css" media="screen">
+  <link rel="stylesheet" href="assets/css/main.css" media="screen">
+  <link rel="stylesheet" href="assets/css/video.css" media="screen">
+</head>
+<body style="overflow-y: hidden;">
+  
+  <div class="ui right vertical inverted sidebar menu" id="sidebar"> </div>
+
+  <nav class="ui grid fluid draggable" id="topNav" style="min-height: 50px;">
+    <div class="row">
+      <div class="ui inverted fixed small menu navbar page grid undraggable" style="padding: 0; -webkit-app-region: drag;">
+        <div class="left menu" style="padding: 0 0 0 5px;">
+          <a class="ui dropdown item">
+            <i class="setting icon"></i>
+            <div class="menu">
+              <div class="item" onclick="openVideo()" style="-webkit-app-region: no-drag;">Open</div>
+              <div class="item">Settings</div>
+            </div>
+          </a>
+        </div>
+
+        <a class="center item brand" style="-webkit-app-region: drag; max-width: 300px; word-break: break-word;"></a>
+        <!-- data-position="bottom center" data-tooltip="" -->
+        <div class="right menu" style="padding-right: 0;">
+          <a class="item" onclick="wind.minimize()"> <i class="minus icon"></i> </a>
+          <a class="item" onclick="wind.toggle()"> <i class="square icon"></i> </a>
+          <a class="item" onclick="wind.close()"> <i class="remove icon"></i> </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="volume-container">
+    <div id="volume-progress">
+
+    </div>
+  </div>
+
+  <div class="pusher">
+    <div class="ui container fluid" style="height: 100%;" id="video-container">
+
+      <div id="top"> </div>
+
+      <video id="player"></video>
+
+      <div id="bottom">
+        <div class="ui center aligned grid">
+          <div class="row">
+            <div class="ui inverted secondary pointing menu navbar grid" style="background: rgba(27, 28, 29, 0.62); min-width: 400px; padding: 0;">
+
+              <a class="item" id="video-play-pause">
+                <i class="play icon"></i>
+              </a>
+              <a class="item" onclick="videoStop()">
+                <i class="stop icon"></i>
+              </a>
+
+              <a class="item" onclick="videoForwardPrevious()">
+                <i class="backward icon"></i>
+              </a>
+
+              <div class="ui centered item">
+                <div id="progress-container">
+                  <div id="progress-bar">
+                  </div>
+                </div>
+              </div>
+
+              <a class="item" onclick="videoForwardPrevious(1)">
+                <i class="forward icon"></i>
+              </a>
+
+              <div class="ui centered item">
+                <time><span id="currentTime">0:00:00</span> / <span id="duration">0:00:00</span></time>
+              </div>
+
+              <div class="right menu" style="padding-right: 0;">
+                <a class="item" onclick="wind.toggleScreen()">
+                  <i class="square outline icon" style="font-size: 20px; margin-bottom: -5.4px;"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <input id="files" type="file" style="display: none; height:0;" multiple>
+  <script src="node_modules/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;" charset="utf-8"></script>
+  <script src="node_modules/semantic-ui-css/semantic.min.js" charset="utf-8"></script>
+  <script src="assets/js/main.js" charset="utf-8"></script>
+  <script src="assets/js/keysController.js" charset="utf-8"></script>
+  <script src="assets/js/remote.js" charset="utf-8"></script>
+</body>
+</html>

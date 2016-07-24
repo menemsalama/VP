@@ -1,0 +1,66 @@
+#player {
+  background: #000 ;
+  width: 100% ;
+  height: 100% ;
+}
+
+
+#video-container #bottom {
+  position: absolute;
+  bottom: 25px;
+  width: 100%;
+  display: none;
+  z-index: 2147483647;
+}
+
+
+#video-play-pause, #video-stop {
+  cursor: pointer;
+}
+
+#progress-container {
+  background: rgba(0, 181, 173, 0.26);
+  border-radius: 5px;
+  height: 15px;
+  width: 190px;
+  /*margin-left: -30px;
+  margin-right: -5px;*/
+  cursor: pointer;
+}
+
+#progress-bar {
+  border-radius: inherit;
+  width: 0;
+  max-width: 100%;
+  background: rgba(0, 181, 173, 0.63);
+  height: 15px;
+  z-index: 100;
+}
+
+
+
+#volume-container {
+  width: 20px;
+  background: rgba(0, 181, 173, 0.48);
+  height: 100px;
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  display: none;
+  z-index: 100;
+}
+#volume-progress {
+  background: #00B5AD;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+::-webkit-media-controls {
+  display:none !important;
+}

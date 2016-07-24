@@ -1,0 +1,29 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  background: #000 ;
+}
+
+
+#topNav {
+  /*position: fixed;*/
+  margin-bottom: -36px;
+}
+
+#sidebar {
+  padding-top: 35px;
+}
+.draggable {
+  -webkit-app-region: drag;
+  /*-webkit-app-region: no-drag;*/
+}
+
+.undraggable * {
+  -webkit-app-region: no-drag;
+}
+
+
+.pusher {
+  background: #000 !important;
+  height: 100%;
+}
