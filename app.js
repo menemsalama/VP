@@ -1,40 +1,46 @@
 const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
+const packageJson = require('./package.json');
+const appVerion = `-${packageJson["version"]} ${packageJson["versionStatus"] === "beta" && packageJson["versionStatus"] || ""}`;
 
 let win;
 
 function createWindow() {
-  // Create the browser window
-  win = new BrowserWindow({width: 800, height: 600, minWidth: 700, frame: false});
-  // frame: false, movable: true , alwaysOnTop: true
+  win = new BrowserWindow({
+    width: 800, height: 500,
+    minWidth: 800, minHeight: 500,
+    frame: false, title: `VP${appVerion}`,
+    icon: 'icon.ico',
+    backgroundColor: '#000', hasShadow: false,
+  });
+
   win.loadURL(`file://${__dirname}/index.html`);
-  // NOTE: to open dev tools when the app start
   // win.webContents.openDevTools();
 
   win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     win = null;
   });
 }
 
 app.on('ready', createWindow);
 
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow();
   }
 });
+
+
+
+// NOTE: to pass values in app logic
+// global.sharedObject = {prop1: process.argv}
+// NOTE: to recieve it in UI logic
+// var remote = require('electron').remote,
+//   arguments = remote.getGlobal('sharedObject').prop1;

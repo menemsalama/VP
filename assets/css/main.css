@@ -1,13 +1,30 @@
 html, body {
   height: 100%;
+  max-height: 100% !important;
   width: 100%;
-  background: #000 ;
+  background: inherit;
+}
+body {
+  overflow-y: hidden; padding-top: 41px !important;
+}
+body.pushable {
+  background: inherit !important;
+}
+.ui.loading.form::before {
+  background: rgba(255,255,255,0);
+}
+.ui.loading.form::after {
+  border-color: #d24d4d rgba(0,181,0,.1) rgba(0,181,173,1);
 }
 
-
 #topNav {
-  /*position: fixed;*/
-  margin-bottom: -36px;
+  padding: 0;
+  /*-webkit-app-region: drag;*/
+  /*height: 7%;*/
+}
+
+#topNav .item.brand::before {
+  background: inherit;
 }
 
 #sidebar {
@@ -15,7 +32,6 @@ html, body {
 }
 .draggable {
   -webkit-app-region: drag;
-  /*-webkit-app-region: no-drag;*/
 }
 
 .undraggable * {
@@ -25,5 +41,7 @@ html, body {
 
 .pusher {
   background: #000 !important;
+  /* nav height is 7% */
+  /*height: 93%;*/
   height: 100%;
 }

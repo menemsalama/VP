@@ -77,7 +77,17 @@ $(document).keydown(function(event) {
     else video.pause();
   }
 
+  if (event.keyCode === 27) {
+    setTimeout(() => {
+      if (!document.webkitIsFullScreen) {
+        $('#bottom .expand.icon').addClass("exband").removeClass("compress");
+      }
+    }, 250);
+  }
+
+
   // TODO: controll OS volume on press ctrl && up || ctrl && down arrow
+  // TODO: and show progress-bar for it
 });
 
 // NOTE: I don't know how wrote this???

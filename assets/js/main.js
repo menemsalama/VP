@@ -17,9 +17,9 @@ let toHHMMSS = function (param) {
 let playIt = () => {
   let interval = setInterval(function() {
     if (video.readyState === 4) {
-      $("html").removeClass("ui loading form");
+      $(".pusher").removeClass("ui loading form");
       // width then height
-      window.resizeTo(video.videoWidth - 200, video.videoHeight - 100);
+      // window.resizeTo(video.videoWidth, video.videoHeight);
       videoPlay()
       $("#video-container #duration").text(toHHMMSS(video.duration));
       clearInterval(interval);
@@ -28,26 +28,44 @@ let playIt = () => {
 }
 
 let addToPlayList = function (files) {
-  $("html").addClass("ui loading form");
+  $(".pusher").addClass("ui loading form");
+  // NOTE: cleanup before adding new videos
   playList = [];
-  $("#sidebar").html('');
+  $("#sidebar").html("");
+  $(video).removeAttr('src');
+  videoStop();
+  $("#video-container #duration").text("0:00:00");
+  $("#media-name").text("");
+
+  // looping through files to add videos
   for (let i = 0; i < files.length; i++) {
     let file = files[i];
-    if (file.type.slice(0, 5) === "video") {
+    if (files[i].type.slice(0, 5) === "video") {
       playList.push(file);
-      $("#sidebar").append(`<a class="item" data-file-path="${file.path}" onclick="play()"> ${file.name} </a>`);
+      $("#sidebar").append(`<a class="item" data-file-path="${files[i].path}" onclick="play()"> ${files[i].name} </a>`);
+    } else {
+      alert(`can't recognize the file with name:
+      "${files[i].name}"
+      In Path:
+      "${files[i].path}"
+      with type Of:
+      "${files[i].type.length > 5 && files[i].type || 'type is NotFound!!'}"`, "Erorr");
+      $(".pusher").removeClass("ui loading form");
     }
   }
-  video.src = playList[0].path;
-  $("#topNav .brand").text(playList[0].name);
-  playIt();
+
+  if (playList[0]) {
+    video.src = playList[0].path.toString();
+    $("#media-name").text(`${playList[0].name.substring(0, 37)}...`);
+    playIt();
+  }
 };
 
 
 let play = () => {
   let v = event.currentTarget, path = $(v).attr('data-file-path'), name = $(v).text();
   video.src = path;
-  $("#topNav .brand").text(name);
+  $("#media-name").text(name);
   $('#sidebar').sidebar('toggle');
   playIt();
 };
@@ -72,9 +90,14 @@ document.addEventListener('dragover', function(e) {
 
 // to open video from the playList
 let openVideo = function () {
-  let input = document.getElementById('files');
+  let input = Object.assign(document.createElement('input'), {
+    type: 'file',
+    id: 'file',
+    multiple: true,
+    accept: ".mkv,video/mp4,video/x-m4v,video/*"
+  });
   input.click();
-  $("#files").on('change', function(e) {
+  input.addEventListener('change', function(e) {
     let files = $(input).get(0).files;
     if (files.length > 0) {
       addToPlayList(files);
@@ -147,12 +170,12 @@ let mouseArray = [];
 $(document).on("mousemove", () => {
   let show = true, oldX = event.pageX;
   mouseArray.push(oldX);
-  $("#bottom").css("display", "block");
+  $("#bottom-caption").show();
   setTimeout(function () {
     show = false;
     setTimeout(function() {
       if (!show && oldX === mouseArray[mouseArray.length-1]) {
-        $("#bottom").css("display", "none");
+        $("#bottom-caption").hide();
       }
     }, 800);
   }, 800);

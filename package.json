@@ -1,25 +1,28 @@
 {
-  "name": "vp",
-  "version": "0.0.1",
-  "description": "desktop video player app built on electron",
+  "name": "VP",
+  "version": "0.0.2",
+  "versionStatus": "beta",
+  "description": "video player app built using electron",
   "main": "app.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-win": "electron-packager . Vp --platform=win32 --arch=ia32 --version=0.0.2 --icon=icon.ico --version-string.ProductName='VP' --version-string.FileDescription='video player'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/menemslama/vp.git"
+    "url": "git+https://github.com/menemslama/VP.git"
   },
   "author": "menem",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/menemslama/vp/issues"
+    "url": "https://github.com/menemslama/VP/issues"
   },
-  "homepage": "https://github.com/menemslama/vp#readme",
+  "homepage": "https://github.com/menemslama/VP#readme",
   "devDependencies": {
     "electron-prebuilt": "^1.2.8"
   },
   "dependencies": {
+    "electron-ejs": "^1.0.2",
     "jquery": "^3.1.0",
     "semantic-ui-css": "^2.2.2"
   }
