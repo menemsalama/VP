@@ -5,8 +5,7 @@
   "description": "video player app built using electron",
   "main": "app.js",
   "scripts": {
-    "start": "electron .",
-    "build-win": "electron-packager . Vp --platform=win32 --arch=ia32 --version=0.0.2 --icon=icon.ico --version-string.ProductName='VP' --version-string.FileDescription='video player'"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,7 @@
   },
   "homepage": "https://github.com/menemslama/VP#readme",
   "devDependencies": {
+    "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.8"
   },
   "dependencies": {

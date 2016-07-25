@@ -11,7 +11,7 @@ function createWindow() {
     width: 800, height: 500,
     minWidth: 800, minHeight: 500,
     frame: false, title: `VP${appVerion}`,
-    icon: 'icon.ico',
+    icon: `${__dirname}/icon.ico`,
     backgroundColor: '#000', hasShadow: false,
   });
 
