@@ -1,10 +1,28 @@
 const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
-const packageJson = require('./package.json');
-const appVerion = `-${packageJson["version"]} ${packageJson["versionStatus"] === "beta" && packageJson["versionStatus"] || ""}`;
+// const {ipcMain} = require('electron');
+// const {dialog} = require('electron')
+
+const appPkg = require('./package.json');
+const appVerion = `-${appPkg["version"]} ${appPkg["versionStatus"] === "beta" && appPkg["versionStatus"] || ""}`;
 
 let win;
+// NOTE: fire this if user open file with VP
+let openFile = (e, path) => {
+  // e.preventDefault();
+  // TODO: send file path
+};
+// NOTE: fire this if user opend directory with VP
+let createPlayList = (e, url) => {
+  // e.preventDefault();
+  // TODO: send dir url
+};
+// NOTE: [previous | Stop | next] video
+let thumbarButtons = (action) => {
+  // TODO: send action to Render process to handle it
+  console.log(action);
+};
 
 function createWindow() {
   win = new BrowserWindow({
@@ -15,6 +33,25 @@ function createWindow() {
     backgroundColor: '#000', hasShadow: false,
   });
 
+  win.setThumbarButtons([
+    {
+      tooltip: 'previous',
+      icon: `${__dirname}/thumbarIcons/video_previous.png`,
+      click() { thumbarButtons('previous') }
+    },
+    {
+      tooltip: 'stop',
+      icon: `${__dirname}/thumbarIcons/video_stop.png`,
+      flags: ['dismissonclick'],
+      click() { thumbarButtons('stop') }
+    },
+    {
+      tooltip: 'forward',
+      icon: `${__dirname}/thumbarIcons/video_forward.png`,
+      click() { thumbarButtons('forward') }
+    }
+  ]);
+
   win.loadURL(`file://${__dirname}/index.html`);
   // win.webContents.openDevTools();
 
@@ -22,6 +59,11 @@ function createWindow() {
     win = null;
   });
 }
+
+
+app.on('open-file', openFile);
+
+app.on('open-url', createPlayList);
 
 app.on('ready', createWindow);
 

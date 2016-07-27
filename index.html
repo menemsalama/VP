@@ -21,8 +21,39 @@
       <a class="ui dropdown item">
         <i class="setting icon"></i>
         <div class="menu">
-          <div class="item" onclick="openVideo()">Open <span style="padding: 7px;"><i class="folder open outline icon" style="margin-right: -12px;"></i></span></div>
-          <!-- <div class="item">Settings</div> -->
+
+          <div style="min-width: 160px;" class="item" onclick="openVideos()">Open File
+            <span class="right floated">
+              <i class="file open outline icon"></i>
+            </span>
+          </div>
+          <div class="item" id="openDirVideos">Open Directory
+            <span class="right floated">
+              <i class="folder open outline icon"></i>
+            </span>
+          </div>
+          <div class="hidden content item inDevelopment" rel="settings">Settings
+            <span class="right floated">
+              <i class="configure icon"></i>
+            </span>
+           </div>
+          <div class="item inDevelopment" rel="about">About
+            <span class="right floated">
+              <i class="info icon"></i>
+            </span>
+           </div>
+          <div class="item inDevelopment" rel="help">Help
+            <span class="right floated">
+              <i class="help icon"></i>
+            </span>
+           </div>
+          <div class="item" onclick="wind.close()">Exit
+            <span class="right floated">
+              <i class="sign out icon"></i>
+            </span>
+            <!-- <span style="padding: 7px;"><i class="sign out icon" style="margin-right: -12px;"></i></span> -->
+           </div>
+
         </div>
       </a>
     </div>
@@ -39,10 +70,14 @@
       <a class="item" onclick="wind.close()"> <i class="remove icon"></i> </a>
     </div>
   </nav>
+
   <div id="volume-container">
     <div id="volume-progress"> </div>
   </div>
 
+  <div id="notifications-container">
+      <div id="caption"> </div>
+  </div>
 
   <aside class="ui right vertical inverted sidebar menu" id="sidebar"> </aside>
 
@@ -59,8 +94,8 @@
           <div class="row">
             <div id="bottom-caption" class="ui inverted secondary pointing menu navbar grid">
 
-              <a class="item" id="video-play-pause"> <i class="play icon"></i> </a>
-              <a class="item" onclick="videoStop()"> <i class="stop icon"></i> </a>
+              <a class="item" id="video-play-pause"> <i class="play icon" id="vpp"></i> </a>
+              <a class="item" onclick="new Video().stop()"> <i class="stop icon"></i> </a>
 
               <a class="item" onclick="videoForwardPrevious()"> <i class="backward icon"></i> </a>
 
@@ -89,10 +124,30 @@
   </div>
 
 
+  <div class="ui modal" id="errorModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Error
+    </div>
+    <div class="image content">
+      <div class="description">
+        <div class="ui header"></div>
+        <p></p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui black deny button">
+        Close
+      </div>
+    </div>
+  </div>
+
+
   <script src="node_modules/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;" charset="utf-8"></script>
   <script src="node_modules/semantic-ui-css/semantic.min.js" charset="utf-8"></script>
   <script src="assets/js/main.js" charset="utf-8"></script>
-  <script src="assets/js/keysController.js" charset="utf-8"></script>
   <script src="assets/js/remote.js" charset="utf-8"></script>
+  <script src="assets/js/keys.js" charset="utf-8"></script>
+  <script src="assets/js/events.js" charset="utf-8"></script>
 </body>
 </html>

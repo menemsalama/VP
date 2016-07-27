@@ -5,7 +5,7 @@ html, body {
   background: inherit;
 }
 body {
-  overflow-y: hidden; padding-top: 41px !important;
+  overflow-y: hidden; padding-top: 40px !important;
 }
 body.pushable {
   background: inherit !important;
@@ -28,7 +28,7 @@ body.pushable {
 }
 
 #sidebar {
-  padding-top: 35px;
+  padding-top: 40px;
 }
 .draggable {
   -webkit-app-region: drag;
@@ -38,6 +38,22 @@ body.pushable {
   -webkit-app-region: no-drag;
 }
 
+#notifications-container {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  top: 55px;
+}
+#notifications-container #caption {
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  width: 320px;
+  margin: 0 auto;
+  color: white;
+  background: rgba(27, 28, 29, 0.62);
+}
 
 .pusher {
   background: #000 !important;
