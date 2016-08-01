@@ -5,10 +5,11 @@ html, body {
   background: inherit;
 }
 body {
-  overflow-y: hidden; padding-top: 40px !important;
-}
-body.pushable {
+  overflow-y: hidden;
   background: inherit !important;
+}
+body, body.pushable, #sidebar {
+  padding-top: 40px !important;
 }
 .ui.loading.form::before {
   background: rgba(255,255,255,0);
@@ -27,9 +28,6 @@ body.pushable {
   background: inherit;
 }
 
-#sidebar {
-  padding-top: 40px;
-}
 .draggable {
   -webkit-app-region: drag;
 }

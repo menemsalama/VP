@@ -17,7 +17,7 @@
 > npm start
 
 ## supported platforms
-#### Current support goes for windows and soon will support Debian Linux (Ubuntu)
+#### Current support goes for windows and soon Debian Linux (Ubuntu)
 
 
 ## License

@@ -1,7 +1,14 @@
+/*
+
+  mostly any function deal with electron remote module
+
+*/
+
 const { remote } = require('electron');
+let wind = {}; // object to provide controllers for the BrowserWindow
+
 // const {ipcRenderer} = require('electron');
-let wind = {};
-// win.setProgressBar(0.5);
+// wind.progressBar(-1)
 
 wind.toggle = () => {
   if (remote.BrowserWindow.getFocusedWindow().isMaximized()) return remote.BrowserWindow.getFocusedWindow().unmaximize();
@@ -43,4 +50,3 @@ wind.progressBar = (param) => {
   // available values [-1, 0 to 1]
   remote.getCurrentWindow().setProgressBar(param);
 };
-wind.progressBar(-1)

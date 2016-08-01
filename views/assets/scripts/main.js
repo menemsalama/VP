@@ -11,12 +11,18 @@ const supportedTypes = ['mp4', 'm4v', 'm4a', 'mp3', 'ogv', 'ogm', 'ogg', 'oga', 
 let video = document.getElementById('player');
 let playList = [], currentVideo;
 
+// NOTE: used to store video setInterval function
+let videoInterval;
+
 // NOTE: defining basic functions
+
+// to show loader on the page
 let loading = function (param) {
   if (param) return $(".pusher").addClass("ui loading form");
   return $(".pusher").removeClass("ui loading form");
 };
 
+// To emit notifications for user
 let Notification = function (message) { // to show notification to user
   this.message = message;
   this.show = () => {
@@ -37,7 +43,7 @@ let ERR = function(header, message) { // handling app possible errors
   this.message = message;
   (this.showToUser = () => {
     $("#errorModal .ui.header, #errorModal .description p").text("");
-    $("#errorModal .ui.header").text(this.header);
+    $("#errorModal .header").text(this.header);
     $("#errorModal .description p").text(this.message);
     $("#errorModal").modal("show");
   })();
@@ -106,6 +112,7 @@ let Videos = function (cbFunc) {
 
 // NOTE: to play video and update progress bar
 let Video = function () {
+  clearInterval(videoInterval);
   this.cb = (callback, param) => {
     return callback(param);
   };
@@ -144,26 +151,22 @@ let Video = function () {
 
   // start tracking video progress and stop when video end
   this.trackProgress = () => {
-    let tempInterval = setInterval(function() {
-      if (video.readyState === 4) {
+    videoInterval = setInterval(() => {
+      if (video.readyState === 4 ) {
         $("#video-container #duration").text(video.duration.toHHMMSS());
-        clearInterval(tempInterval);
-      }
-    }, 100);
-    this.videoProgress = setInterval(() => {
-      if (video.readyState === 4 && !video.paused) {
-        let percent = parseInt(video.currentTime / video.duration * 100),
-        decimal = parseFloat(percent) / 100.0;
         $("#video-container #currentTime").text(video.currentTime.toHHMMSS());
-        $("#progress-bar").css("width", percent + "%");
-        wind.progressBar(decimal);
+        $("#progress-bar").css("width", parseInt(video.currentTime / video.duration * 100) + "%");
+        wind.progressBar(parseFloat(parseInt(video.currentTime / video.duration * 100)) / 100.0);
       }
+
       if (video.ended) {
         wind.progressBar(-1);
-        this.stopTracking();
+        clearInterval(videoInterval);
         this.playNext();
       }
-    }, 30);
+
+      console.log("tracking in progress");
+    }, 200);
   };
 
   // TODO: fix bug
@@ -173,15 +176,27 @@ let Video = function () {
     // for (var i = 0 ; i < highestTimeoutId ; i++) {
     //   clearTimeout(i);
     // }
-    clearInterval(this.videoProgress);
+    // clearInterval(this.videoProgress);
+    clearInterval(videoInterval);
   };
   // NOTE: autoplay
   this.playNext = () => {
     this.play(++currentVideo, (currentVideo) => {
+      clearInterval(videoInterval);
       video.play();
       this.trackProgress();
     })
   };
+  /* new Video() end */
+};
+
+let trackVideoProg = function () {
+  this.start = () => {
+
+  };
+  this.stop = () => {
+
+  }
 };
 
 let openVideos = function () {
@@ -216,42 +231,44 @@ let PlayList = function() {
     for (var i = 0; i < videos.length; i++) {
       if (videos[i].type.slice(0, 5) === "video" || supportedTypes.indexOf(videos[i].name.split('.')[1].toLowerCase()) !== -1) {
         playList.push(videos[i]);
-        $("#sidebar").append(`<a class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> ${videos[i]['name']} </a>`);
+        // $("#sidebar").append(`<a class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> ${videos[i]['name']} </a>`);
+
+        $("#sidebar").append(`<div class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> <a class="play">${videos[i]['name']}</a> <a class="trash"> <i class="trash icon"></i> </a> </div>`);
+
       } else {
         errs.push({type: 'error', message: 'file type is not supported', file: videos[i]});
       }
     }
     return this.cb(callback, errs, playList);
   };
-  // NOTE: to remove one or array of vieos
-  this.clean = (videos, callback) => {
-    if (typeof videos === "number") {
 
-      return this.cb(callback, null, "It's a array");
+  // NOTE: to remove one or array of vieos
+  this.clean = (video, callback) => { // videos.constructor === Array &&
+    if (typeof video === "number") {
+      playList.splice(video, 1);
+      let side = $("#sidebar");
+      $(side).empty();
+      console.log(side);
+      for (var z = 0; z < playList.length; z++) {
+        console.log(playList[z].name);
+      }
+      return this.cb(callback, null, "success");
     }
-    // return "clean function expect first parameter to be Array";
-    return this.cb(callback, "clean function expect first parameter to be Array", null);
+
+    return this.cb(callback, "clean function expect a parameter to be a Number", null);
   };
+
   // NOTE: to cleanup all the play list
   this.cleanup = () => {
-
-    $("#sidebar").html("");
-    $("#media-name").text("");
+    $("#media-name, #sidebar").html("");
     $("#video-play-pause #vpp").removeClass("pause").addClass("play");
-    $("#video-container #duration").text("0:00:00");
-    $("#video-container #currentTime").text("0:00:00");
+    $("#video-container #duration, #video-container #currentTime").text("0:00:00");
     $("#progress-bar").css("width", "0%");
+    $(video).attr("src", "").removeAttr("src")
     wind.progressBar(-1);
-    return playList = [], $(video).attr("src", ""), $(video).removeAttr("src");
+    return playList = [];
   };
 };
-
-
-// let nextInPlayList = () => {
-//   // TODO: play cext video in the play list when cuurent end
-//   // TODO: find next and invoke it with playVideo(obj)
-// };
-
 
 
 let togglePlayVideo = function (action) {
@@ -259,8 +276,6 @@ let togglePlayVideo = function (action) {
 
   if (video.src.length === 0 && typeof playList[0] === "undefined") {
     openVideos();
-    // $(video).attr('src', "");
-    // new Notification(videoError).show();
     return false;
   }
 
@@ -286,8 +301,7 @@ let togglePlayVideo = function (action) {
     $(elm).removeClass("pause").addClass("play");
     return video.pause();
   }
-  // let msg = new Notification('new videos has been Added the playlist');
-  // msg.show();
+
 };
 
 Number.prototype.toHHMMSS = function () {
