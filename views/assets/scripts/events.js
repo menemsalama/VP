@@ -7,7 +7,7 @@ goes here
 */
 
 
-document.addEventListener('drop', function(e) {
+window.addEventListener('drop', function(e) {
   e.preventDefault();
   e.stopPropagation();
   $('#sidebar').sidebar('hide');
@@ -25,7 +25,7 @@ document.addEventListener('drop', function(e) {
   }
 });
 // NOTE: To prevent app reloading
-document.addEventListener('dragover', function(e) {
+window.addEventListener('dragover', function(e) {
   e.preventDefault();
   e.stopPropagation();
 });
@@ -79,8 +79,6 @@ $("#sidebar").on('click', '.item .trash', function (e) {
   e.stopPropagation();
   let index = Number($(e.currentTarget.parentElement.parentElement).attr('data-video-index'));
 
-  console.log(typeof index, e.currentTarget.parentElement.parentElement);
-
   new PlayList().clean(index, (err, data) => {
     if (err) console.log(err);
     $($("#sidebar .item")[index]).remove();
@@ -91,10 +89,10 @@ $("#sidebar").on('click', '.item .trash', function (e) {
       $("#media-name").text("");
       $(video).attr('src', "").removeAttr('src');
     }
-    // console.log(playList);
-    $("#sidebar").html("");
+
+    $("#sidebar").empty();
     for (var i = 0; i < playList.length; i++) {
-      $("#sidebar").append(`<div class="item" data-video-path="${playList[i].path}" data-video-index="${playList.length-1}"> <a class="play">${playList[i].name}</a> <a class="trash"> <i class="trash icon"></i> </a> </div>`);
+      $("#sidebar").append(`<div class="item" data-video-path="${playList[i].path}" data-video-index="${i}"> <a class="play">${playList[i].name}</a> <a class="trash"> <i class="trash icon"></i> </a> </div>`);
     }
 
   });
@@ -102,7 +100,6 @@ $("#sidebar").on('click', '.item .trash', function (e) {
 
 $("#openDirVideos").on('click', function (e) {
   new VideosDir(function (err, inputTag) {
-    console.log(inputTag.files[0].path);
 
     fs.readdir(inputTag.files[0].path, 'utf8', (err, data) => {
       if (err) console.log(err);
@@ -122,10 +119,8 @@ $("#openDirVideos").on('click', function (e) {
       new PlayList().cleanup();
 
       new PlayList().add(videos, function (errs, playList) {
-        // console.log(errs);
         new Video().play(0, function (currentVideo) {
-          console.log("valid ", videos);
-          // loading(0);
+
           video.play();
           new Video().trackProgress();
           return currentVideo;
@@ -143,12 +138,18 @@ $(".inDevelopment").click(() => {
   new ERR("Not Found", `Sorry, "${el.getAttribute("rel")}" section is in development phase.`);
 });
 
+$("#topNav #about").on("click", function () {
+  $("#errorModal .ui.header, #errorModal .description p").text("");
+  $("#errorModal .header").text("about");
+  $("#errorModal .description p").html("<strong> author: </strong> menem.slama@gmail.com <br> <strong> VP-version: </strong> 0.0.3");
+
+  $("#errorModal").modal("show");
+});
 
 
 $("#video-container").on("click", "#video-play-pause", togglePlayVideo);
 
-// NOTE: it's working fine
-// To show video controllers on mouse move and cursor
+// NOTE: To show video controllers on mouse move and cursor
 let mouseArray = [];
 $(document).on("mousemove", () => {
   let show = true, oldX = event.pageX;
@@ -162,8 +163,8 @@ $(document).on("mousemove", () => {
         $('#player').css('cursor', 'none');
         $("#bottom-caption").hide();
       }
-    }, 800);
-  }, 800);
+    }, 8e2);
+  }, 8e2);
 });
 
 

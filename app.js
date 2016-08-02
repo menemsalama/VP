@@ -19,24 +19,25 @@ function createWindow() {
     backgroundColor: '#000', hasShadow: false,
   });
 
-  win.setThumbarButtons([
-    {
-      tooltip: 'previous',
-      icon: `${__dirname}/thumbarIcons/video_previous.png`,
-      click() { thumbarButtons('previous') }
-    },
-    {
-      tooltip: 'stop',
-      icon: `${__dirname}/thumbarIcons/video_stop.png`,
-      flags: ['dismissonclick'],
-      click() { thumbarButtons('stop') }
-    },
-    {
-      tooltip: 'forward',
-      icon: `${__dirname}/thumbarIcons/video_forward.png`,
-      click() { thumbarButtons('forward') }
-    }
-  ]);
+  // TODO: add thumbarButtons functions
+  // win.setThumbarButtons([
+  //   {
+  //     tooltip: 'previous',
+  //     icon: `${__dirname}/thumbarIcons/video_previous.png`,
+  //     click() { thumbarButtons('previous') }
+  //   },
+  //   {
+  //     tooltip: 'stop',
+  //     icon: `${__dirname}/thumbarIcons/video_stop.png`,
+  //     flags: ['dismissonclick'],
+  //     click() { thumbarButtons('stop') }
+  //   },
+  //   {
+  //     tooltip: 'forward',
+  //     icon: `${__dirname}/thumbarIcons/video_forward.png`,
+  //     click() { thumbarButtons('forward') }
+  //   }
+  // ]);
 
   win.loadURL(`file://${__dirname}/views/pages/index.html`);
   // win.webContents.openDevTools();
@@ -67,8 +68,5 @@ app.on('activate', () => {
 
 
 
-// NOTE: to pass values in app logic
-// global.sharedObject = {prop1: process.argv}
-// NOTE: to recieve it in UI logic
-// var remote = require('electron').remote,
-//   arguments = remote.getGlobal('sharedObject').prop1;
+// TODO: build windows installer
+// TODO: create a desktop shortcut for VP, add it to windows contextmenu to open directory and videos

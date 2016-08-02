@@ -11,7 +11,7 @@ const supportedTypes = ['mp4', 'm4v', 'm4a', 'mp3', 'ogv', 'ogm', 'ogg', 'oga', 
 let video = document.getElementById('player');
 let playList = [], currentVideo;
 
-// NOTE: used to store video setInterval function
+// NOTE: To store video setInterval function
 let videoInterval;
 
 // NOTE: defining basic functions
@@ -25,14 +25,13 @@ let loading = function (param) {
 // To emit notifications for user
 let Notification = function (message) { // to show notification to user
   this.message = message;
-  this.show = () => {
+  (this.show = () => {
     $("#notifications-container").show(300);
     $("#notifications-container #caption").text(this.message);
     setTimeout(function() {
       $("#notifications-container").hide(300);
-    }, 2000);
-  };
-  this.show();
+    }, 2e3);
+  })();
 };
 
 let ERR = function(header, message) { // handling app possible errors
@@ -61,21 +60,9 @@ let isAdirOrFiles = (inputTag) => {
   return "files";
 };
 
-let scanFile = (file) => {
-  // TODO: to check file type and if missing try to
-  // TODO: create video tag and try the file if work play it
-  // TODO: if not throw error "file type is not supported"
-  // TODO: return obj with status vaild or invalid if valid push it to playList array
-};
 
-
-
-
-// NOTE: video player functions
-
-// NOTE: to get videos directory path [Not working yet]
+// NOTE: to get files from dir
 let VideosDir = function(func) {
-  // NOTE: to get files from dir
   // <input id="openDir" type="file" webkitdirectory directory multiple/>
   this.cb = (callback, err, param) => {
     return callback(err, param);
@@ -88,8 +75,6 @@ let VideosDir = function(func) {
   this.input.click();
   this.input.addEventListener('change', () => {
     return this.cb(func, null, this.input);
-    // let input = this.input
-    // if (input) return this.dirPath = input.files[0].path;
   });
 };
 
@@ -119,7 +104,7 @@ let Video = function () {
   // start video when it possible
   this.play = (index, callback) => {
 
-    currentVideo = index;
+    currentVideo = Number(index);
     if (playList[currentVideo]) {
       video.src = playList[currentVideo].path;
       let item = $("#sidebar .item").removeClass("playing");
@@ -165,18 +150,10 @@ let Video = function () {
         this.playNext();
       }
 
-      console.log("tracking in progress");
-    }, 200);
+      // console.log("video is in progress");
+    }, 2e2);
   };
-
-  // TODO: fix bug
-  // NOTE: clearInterval not stopping videoProgress Interval
   this.stopTracking = () => {
-    // var highestTimeoutId = setTimeout(";");
-    // for (var i = 0 ; i < highestTimeoutId ; i++) {
-    //   clearTimeout(i);
-    // }
-    // clearInterval(this.videoProgress);
     clearInterval(videoInterval);
   };
   // NOTE: autoplay
@@ -187,29 +164,23 @@ let Video = function () {
       this.trackProgress();
     })
   };
-  /* new Video() end */
-};
-
-let trackVideoProg = function () {
-  this.start = () => {
-
-  };
-  this.stop = () => {
-
-  }
 };
 
 let openVideos = function () {
-  // loading(1);
   new Videos(function (err, videos) {
     if (err) console.log(err);
     new PlayList().cleanup();
 
     new PlayList().add(videos, function (errs, playList) {
-      // console.log(errs);
       new Video().play(0, function (currentVideo) {
-        // loading(0);
-        video.play();
+        let tmp = setInterval(function () {
+          if (video.readyState === 4) {
+            video.play();
+            window.resizeTo(video.videoWidth - (video.videoWidth / 8), video.videoHeight - (video.videoHeight / 15));
+            clearInterval(tmp);
+          }
+        }, 50);
+
         new Video().trackProgress();
         return currentVideo;
       });
@@ -224,7 +195,6 @@ let PlayList = function() {
   this.cb = (callback, err, param) => {
     return callback(err, param);
   };
-  // return this.cb(cbFunc, null, this.input.files);
 
   this.add = (videos, callback) => {
     let errs = [];
@@ -242,25 +212,19 @@ let PlayList = function() {
     return this.cb(callback, errs, playList);
   };
 
-  // NOTE: to remove one or array of vieos
-  this.clean = (video, callback) => { // videos.constructor === Array &&
+  // NOTE: To remove one video from the playList array
+  this.clean = (video, callback) => {
     if (typeof video === "number") {
       playList.splice(video, 1);
-      let side = $("#sidebar");
-      $(side).empty();
-      console.log(side);
-      for (var z = 0; z < playList.length; z++) {
-        console.log(playList[z].name);
-      }
       return this.cb(callback, null, "success");
     }
 
     return this.cb(callback, "clean function expect a parameter to be a Number", null);
   };
 
-  // NOTE: to cleanup all the play list
+  // NOTE: To cleanup all the play list
   this.cleanup = () => {
-    $("#media-name, #sidebar").html("");
+    $("#media-name, #sidebar").empty();
     $("#video-play-pause #vpp").removeClass("pause").addClass("play");
     $("#video-container #duration, #video-container #currentTime").text("0:00:00");
     $("#progress-bar").css("width", "0%");
