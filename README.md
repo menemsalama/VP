@@ -1,4 +1,5 @@
-# VP - 0.0.3 ( beta )  ![logo](https://raw.githubusercontent.com/menemslama/VP/master/icon.ico)
+# VP - 0.0.3
+ ![logo](https://raw.githubusercontent.com/menemslama/VP/master/icons/icon.ico)
 ### VP Is a desktop video player app built on electron and node.js
 
 ## Contribution
