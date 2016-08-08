@@ -12,10 +12,10 @@ let win;
 
 function createWindow() {
   win = new BrowserWindow({
-    title: 'VP', width: 700, height: 440,
+    title: 'VP', width: 710, height: 440,
     minWidth: 700, minHeight: 440,
     frame: false, title: `VP${appVerion}`,
-    icon: `${__dirname}/icon.ico`,
+    icon: `${__dirname}/icons/icon.ico`,
     backgroundColor: '#000', hasShadow: false,
   });
 

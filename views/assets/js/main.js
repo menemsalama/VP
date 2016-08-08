@@ -110,7 +110,8 @@ let Video = function () {
       let item = $("#sidebar .item").removeClass("playing");
       $(item[currentVideo]).addClass("playing");
       $("#video-play-pause .play").removeClass("play").addClass("pause");
-      $("#media-name").text(`${playList[currentVideo].name.substring(0, 37)}...`);
+      // $("#media-name").text(`${playList[currentVideo].name.substring(0, 37)}...`);
+      $("#media-name").text(`${playList[currentVideo].name}...`);
       return this.cb(callback, currentVideo);
     } else {
 
@@ -166,6 +167,9 @@ let Video = function () {
   };
 };
 
+// BUG: Some url's not working
+// NOTE: The video works after change his name
+// TODO: Relay on main process script and readStream module
 let openVideos = function () {
   new Videos(function (err, videos) {
     if (err) console.log(err);
@@ -176,7 +180,7 @@ let openVideos = function () {
         let tmp = setInterval(function () {
           if (video.readyState === 4) {
             video.play();
-            window.resizeTo(video.videoWidth - (video.videoWidth / 8), video.videoHeight - (video.videoHeight / 15));
+            // window.resizeTo(video.videoWidth - (video.videoWidth / 8), video.videoHeight - (video.videoHeight / 15));
             clearInterval(tmp);
           }
         }, 50);
