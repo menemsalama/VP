@@ -43,7 +43,7 @@ $(document).on("mousewheel", (e) => {
     if(e.originalEvent.wheelDelta /120 > 0) volumeController(1);
     else volumeController(0);
   }
-})
+});
 
 document.getElementById('sidebar').addEventListener('drop', function(e) {
   e.preventDefault();
@@ -104,7 +104,7 @@ $("#openDirVideos").on('click', function (e) {
     fs.readdir(inputTag.files[0].path, 'utf8', (err, data) => {
       if (err) console.log(err);
 
-      let videos = []
+      let videos = [];
       data.forEach(function (path) {
         let ext = path.split('.')[1];
         if (ext && supportedTypes.indexOf(ext.toLowerCase()) !== -1) {
@@ -141,7 +141,7 @@ $(".inDevelopment").click(() => {
 $("#topNav #about").on("click", function () {
   $("#errorModal .ui.header, #errorModal .description p").text("");
   $("#errorModal .header").text("about");
-  $("#errorModal .description p").html("<strong> author: </strong> menem.slama@gmail.com <br> <strong> VP-version: </strong> 0.0.3");
+  $("#errorModal .description p").html("  ");
 
   $("#errorModal").modal("show");
 });

@@ -1,13 +1,24 @@
-var gulp          = require('gulp');
-var sass          = require('gulp-ruby-sass');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+
+const paths = {
+  sass: {
+    "in": 'assets/sass/app.sass',
+    "out": 'public/css'
+    // "out": 'build/css'
+  }
+};
 
 gulp.task('sass', function () {
-  sass('build/sass/*.scss')
-  .pipe(gulp.dest('views/assets/css'));
+
+  gulp.src(paths.sass.in)
+  .pipe(sass().on('error', sass.logError))
+  .pipe(gulp.dest(paths.sass.out));
+
 });
 
 gulp.task('watch', function () {
-  gulp.watch('build/sass/*.scss', ['sass']);
+  gulp.watch(paths.sass.in, [ 'sass' ]);
 });
 
 gulp.task('default', ['sass', 'watch']);

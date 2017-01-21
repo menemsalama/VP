@@ -1,6 +1,8 @@
 node_modules
+build
 CONTRIBUTING.md
 npm-debug.log
 releases
 g.md
 .sass-cache
+debuggingDir

@@ -1,40 +1,43 @@
-#sidebar::-webkit-scrollbar {
-  max-width: 10px;
-}
-#sidebar::-webkit-scrollbar-track {
-  border: 1px solid inherit;
-  margin-top: 40px;
-}
-#sidebar::-webkit-scrollbar-thumb {
-  background: rgba(0, 181, 173, 0.63);
-  /*border-radius: 20%*/
+#sidebar {
+  &::-webkit-scrollbar {
+    max-width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    border: 1px solid inherit;
+    margin-top: 40px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 181, 173, 0.63);
+  }
+
+  .item {
+    &:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
+    .play {
+      color: rgba(255,255,255,.7);
+      &:hover {
+        cursor: pointer;
+        color: rgba(255,255,255, 1);
+      }
+    }
+    .trash {
+      float: right;
+      &:hover {
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
-#sidebar .item:hover {
-  background: rgba(255,255,255,.08);
-  color: #fff;
-}
 
-#sidebar .item .play {
-  color: rgba(255,255,255,.7);
-}
-#sidebar .item .play:hover {
-  cursor: pointer;
-  color: rgba(255,255,255, 1);
-}
-
-#sidebar .item .trash {
-  float: right;
-}
-#sidebar .item .trash:hover {
-  color: red;
-  cursor: pointer;
-}
 
 #player {
   width: 100%;
   height: 100%;
-  padding-top: 2px;
+  padding: 0 !important;
 }
 
 #video-container {

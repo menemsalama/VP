@@ -23,7 +23,7 @@ wind.close = () => {
 
 wind.minimize = () => {
   remote.BrowserWindow.getFocusedWindow().minimize();
-}
+};
 
 wind.toggleScreen = () => {
   if (document.webkitIsFullScreen) {
@@ -33,7 +33,7 @@ wind.toggleScreen = () => {
   new Notification("Exit from fullscreen mode");
   $('#bottom .expand.icon').removeClass("exband").addClass("compress");
   return document.getElementById('player').webkitRequestFullScreen();
-}
+};
 
 wind.onTopToggle = (el) => {
   if ($(el).find('i').hasClass('empty')) {

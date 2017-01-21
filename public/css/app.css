@@ -1,3 +1,61 @@
+html, body {
+  height: 100%;
+  max-height: 100% !important;
+  width: 100%;
+  background: inherit; }
+
+body {
+  overflow-y: hidden;
+  background: inherit !important; }
+
+body, body.pushable, #sidebar {
+  padding-top: 40px !important; }
+
+.ui.loading.form::before {
+  background: rgba(255, 255, 255, 0); }
+
+.ui.loading.form::after {
+  border-color: #d24d4d rgba(0, 181, 0, 0.1) #00b5ad; }
+
+.pusher {
+  background: #000 !important;
+  height: 100%; }
+
+#topNav {
+  padding: 0;
+  /*-webkit-app-region: drag;*/
+  /*height: 7%;*/ }
+  #topNav .item.brand::before {
+    background: inherit; }
+
+.draggable {
+  -webkit-app-region: drag; }
+
+.undraggable * {
+  -webkit-app-region: no-drag; }
+
+#media-name {
+  -webkit-app-region: drag;
+  max-width: 300px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+#notifications-container {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  width: 100%;
+  top: 55px; }
+  #notifications-container #caption {
+    text-align: center;
+    padding: 15px;
+    font-size: 18px;
+    width: 320px;
+    margin: 0 auto;
+    color: white;
+    background: rgba(27, 28, 29, 0.62); }
+
 #sidebar::-webkit-scrollbar {
   max-width: 10px; }
 
@@ -11,16 +69,18 @@
 #sidebar .item:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff; }
+
 #sidebar .item .play {
   color: rgba(255, 255, 255, 0.7); }
+  #sidebar .item .play:hover {
+    cursor: pointer;
+    color: white; }
+
 #sidebar .item .trash {
   float: right; }
-#sidebar .item .play:hover {
-  cursor: pointer;
-  color: white; }
-#sidebar .item .trash:hover {
-  color: red;
-  cursor: pointer; }
+  #sidebar .item .trash:hover {
+    color: red;
+    cursor: pointer; }
 
 #player {
   width: 100%;

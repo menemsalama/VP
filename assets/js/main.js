@@ -25,13 +25,14 @@ let loading = function (param) {
 // To emit notifications for user
 let Notification = function (message) { // to show notification to user
   this.message = message;
-  (this.show = () => {
+  this.show = () => {
     $("#notifications-container").show(300);
     $("#notifications-container #caption").text(this.message);
     setTimeout(function() {
       $("#notifications-container").hide(300);
     }, 2e3);
-  })();
+  };
+  this.show();
 };
 
 let ERR = function(header, message) { // handling app possible errors
@@ -40,26 +41,15 @@ let ERR = function(header, message) { // handling app possible errors
   // VP tried to open the file but it seems the file is not listed as a valid
   this.header = header || "error";
   this.message = message;
-  (this.showToUser = () => {
+  this.showToUser = () => {
     $("#errorModal .ui.header, #errorModal .description p").text("");
     $("#errorModal .header").text(this.header);
     $("#errorModal .description p").text(this.message);
     $("#errorModal").modal("show");
-  })();
+  };
+  this.showToUser();
   // console.log(this.header, this.message);
 };
-
-// NOTE: unnecessary function to check if the target is directory or just files
-let isAdirOrFiles = (inputTag) => {
-  let files = $(inputTag).get(0).files;
-  if (files.length > 1) return "files";
-  for (var i = 0; i < files.length; i++) {
-    if (files[i].type.length > 5) return "files";
-  }
-  if (typeof files[0].webkitRelativePath === "string" || inputTag.value.slice(0, 10) === "C:akepath") return "directory";
-  return "files";
-};
-
 
 // NOTE: to get files from dir
 let VideosDir = function(func) {
@@ -163,7 +153,7 @@ let Video = function () {
       clearInterval(videoInterval);
       video.play();
       this.trackProgress();
-    })
+    });
   };
 };
 
@@ -207,7 +197,7 @@ let PlayList = function() {
         playList.push(videos[i]);
         // $("#sidebar").append(`<a class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> ${videos[i]['name']} </a>`);
 
-        $("#sidebar").append(`<div class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> <a class="play">${videos[i]['name']}</a> <a class="trash"> <i class="trash icon"></i> </a> </div>`);
+        $("#sidebar").append(`<div class="item" data-video-path="${videos[i].path}" data-video-index="${playList.length-1}"> <a class="play">${videos[i].name}</a> <a class="trash"> <i class="trash icon"></i> </a> </div>`);
 
       } else {
         errs.push({type: 'error', message: 'file type is not supported', file: videos[i]});
@@ -232,9 +222,10 @@ let PlayList = function() {
     $("#video-play-pause #vpp").removeClass("pause").addClass("play");
     $("#video-container #duration, #video-container #currentTime").text("0:00:00");
     $("#progress-bar").css("width", "0%");
-    $(video).attr("src", "").removeAttr("src")
+    $(video).attr("src", "").removeAttr("src");
     wind.progressBar(-1);
-    return playList = [];
+    playList = [];
+    return playList;
   };
 };
 
@@ -288,18 +279,18 @@ Number.prototype.toHHMMSS = function () {
   } else {
     return hours+':'+minutes+':'+seconds;
   }
-}
+};
 
 let volumeController = (param) => {
   if (param) {
     if (video.volume !== 1) {
-      video.volume += .1;
+      video.volume += 0.1;
       $("#volume-container").show();
       $("#volume-progress").css("height", video.volume * 100);
     }
   } else {
-    if (video.volume > .1) {
-      video.volume -= .1;
+    if (video.volume > 0.1) {
+      video.volume -= 0.1;
       $("#volume-container").show();
       $("#volume-progress").css("height", video.volume * 100);
     }
